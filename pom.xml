@@ -58,6 +58,19 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.19.0</version>
         </dependency>
+        <!-- SLF4J API -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.17</version>
+        </dependency>
+        <!-- SLF4J Simple Provider -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.17</version>
+            <scope>test</scope> <!-- Только для тестов -->
+        </dependency>
     </dependencies>
 
     <build>
@@ -78,13 +91,9 @@
                             <value>io.qameta.allure.junit4.AllureJunit4</value>
                         </property>
                     </properties>
-                    <systemProperties>
-                        <property>
-                            <!-- папка, в которую будут генерироваться отчёты Allure -->
-                            <name>allure.results.directory</name>
-                            <value>${project.build.directory}/allure-results</value>
-                        </property>
-                    </systemProperties>
+                    <systemPropertyVariables>
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
                 </configuration>
                 <dependencies>
                     <dependency>

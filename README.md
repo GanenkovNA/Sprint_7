@@ -14,3 +14,7 @@
 * `Maven Surefire Plugin 3.5.3`
 * `AspectJ Weaver 1.9.24`
 * `Allure Maven 2.15.2`
+
+Для логирования:
+* `SLF4J API 2.0.17`
+* `SLF4J Simple Provider 2.0.17`
