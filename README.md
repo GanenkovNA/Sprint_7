@@ -5,6 +5,8 @@
 В проекте использованы следующие инструменты:
 * `Junit 4 4.13.2`
 * `RestAssured 5.5.2`
+* `Project Lombok 1.18.38`
+* `Jackson Databind 2.19.0`
 
 Для генерации отчётов:
 * `Allure JUnit4 2.29.1`
