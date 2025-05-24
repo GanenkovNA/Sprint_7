@@ -4,8 +4,12 @@
     <!-- Логирование в файл -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>target/test-logs/main-log.log</file>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        <append>true</append>
+
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ru.yandex.praktikum.infrastructure.logback.PrettyMultilineLayout">
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </layout>
         </encoder>
     </appender>
 

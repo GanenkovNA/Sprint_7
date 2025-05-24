@@ -41,7 +41,7 @@ public class CourierBase extends ScooterBase {
 
         assertStatusCode(response, 201, "addNewValidCourierAndCheck");
 
-        assertBody(response, "ok", (Matcher<?>) equalTo(true), "Ожидался `ok = true`", "addNewValidCourierAndCheck");
+        assertBody(response, "ok", equalTo(true), "Ожидался `ok = true`", "addNewValidCourierAndCheck");
 
         courier.setCreated(true);
         logger.debug("Успешное создание курьера {}", courier.getLogin());
@@ -53,7 +53,7 @@ public class CourierBase extends ScooterBase {
         MatcherAssert.assertThat(
                 String.format("Запрос на логин курьера %s не был отправлен, так как курьер не был создан", courier.getLogin()),
                 courier.isCreated(),
-                is(false));
+                is(true));
 
         logger.debug("Отправлен запрос на логин курьера {}", courier.getLogin());
 
@@ -70,15 +70,11 @@ public class CourierBase extends ScooterBase {
     @Step("Проверка удаления валидного курьера (кода статуса '200' и значения `ok`)")
     public void deleteValidCourierAndCheck(){
         // Проверка, чтобы не отправлять заведомо невалидный запрос
-        try {
-            MatcherAssert.assertThat(
-                    String.format("Запрос на удаление курьера %s не был отправлен, так как значение `id = null`", courier.getLogin()),
-                    courier.getId(),
-                    notNullValue()
-            );
-        } catch (AssertionError e){
-            throw e;
-        }
+        MatcherAssert.assertThat(
+                String.format("Запрос на удаление курьера %s не был отправлен, так как значение `id = null`", courier.getLogin()),
+                courier.getId(),
+                notNullValue()
+        );
 
         logger.debug("Отправлен запрос на удаление курьера {}", courier.getLogin());
 
