@@ -1,4 +1,4 @@
-package courier.dto;
+package ru.yandex.praktikum.courier.dto;
 
 import lombok.Data;
 

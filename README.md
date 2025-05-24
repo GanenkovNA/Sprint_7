@@ -17,4 +17,5 @@
 
 Для логирования:
 * `SLF4J API 2.0.17`
-* `SLF4J Simple Provider 2.0.17`
+* `Logback Classic 1.5.6`
+* Файл с логами находится в `target/test-logs/main-log.log`
