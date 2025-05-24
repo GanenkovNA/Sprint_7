@@ -1,7 +1,7 @@
-package ru.yandex.praktikum.log_services.allure;
+package ru.yandex.praktikum.infrastructure.allure;
 
 import io.qameta.allure.Allure;
-import ru.yandex.praktikum.log_services.rest_assured.httpdto.HttpExchangeDto;
+import ru.yandex.praktikum.infrastructure.rest_assured.dto.http.HttpExchangeDto;
 
 public class AllureLogger {
 

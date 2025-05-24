@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.log_services.rest_assured.httpdto;
+package ru.yandex.praktikum.infrastructure.rest_assured.dto.http;
 
 import lombok.Builder;
 

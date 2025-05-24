@@ -1,14 +1,12 @@
-package ru.yandex.praktikum.courier;
+package ru.yandex.praktikum.scooter.courier.dto;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class CourierEntity {
+public class CourierCreationRequestDto {
     private String login;
     private String password;
     private String firstName;
-    private boolean isCreated = false;
-    private Integer id;
 }

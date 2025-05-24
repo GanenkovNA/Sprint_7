@@ -1,9 +1,7 @@
-package ru.yandex.praktikum.log_services.rest_assured.httpdto;
+package ru.yandex.praktikum.infrastructure.rest_assured.dto.http;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 

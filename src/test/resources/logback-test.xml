@@ -22,7 +22,7 @@
 <!--        <appender-ref ref="STDOUT"/> &lt;!&ndash; Опционально &ndash;&gt;-->
     </logger>
 
-    <logger name="scooter.courier" level="DEBUG" additivity="false">
+    <logger name="ru.yandex.praktikum" level="DEBUG" additivity="false">
         <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
     </logger>

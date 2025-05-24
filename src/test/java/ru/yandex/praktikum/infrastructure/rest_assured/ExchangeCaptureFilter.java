@@ -1,12 +1,12 @@
-package ru.yandex.praktikum.log_services.rest_assured;
+package ru.yandex.praktikum.infrastructure.rest_assured;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.Cookie;
 import io.restassured.http.Cookies;
-import ru.yandex.praktikum.log_services.rest_assured.httpdto.HttpExchangeDto;
-import ru.yandex.praktikum.log_services.rest_assured.httpdto.HttpRequestDto;
-import ru.yandex.praktikum.log_services.rest_assured.httpdto.HttpResponseDto;
+import ru.yandex.praktikum.infrastructure.rest_assured.dto.http.HttpExchangeDto;
+import ru.yandex.praktikum.infrastructure.rest_assured.dto.http.HttpRequestDto;
+import ru.yandex.praktikum.infrastructure.rest_assured.dto.http.HttpResponseDto;
 import io.restassured.filter.Filter;
 import io.restassured.filter.FilterContext;
 import io.restassured.http.Header;
