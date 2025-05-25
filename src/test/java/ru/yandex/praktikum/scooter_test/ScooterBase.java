@@ -3,6 +3,8 @@ package ru.yandex.praktikum.scooter_test;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.Matcher;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 import org.slf4j.Logger;
 import org.junit.Before;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,13 @@ import ru.yandex.praktikum.infrastructure.rest_assured.dto.http.HttpExchangeDto;
 public class ScooterBase {
 
     private static final Logger logger = LoggerFactory.getLogger(ScooterBase.class);
+
+    @Rule
+    public TestName testName = new TestName();
+
+    protected String getCurrentTestMethod() {
+        return testName.getMethodName();
+    }
 
     @Before
     public void setUp() {

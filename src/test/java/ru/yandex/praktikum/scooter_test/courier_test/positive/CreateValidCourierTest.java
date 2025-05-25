@@ -11,24 +11,24 @@ import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 
 
 @DisplayName("Проверка возможности создания курьера с валидными данными")
-public class AddCourierTest extends CourierBase {
-    private static final Logger logger = LoggerFactory.getLogger(AddCourierTest.class);
+public class CreateValidCourierTest extends CourierBase {
+    private static final Logger logger = LoggerFactory.getLogger(CreateValidCourierTest.class);
 
     @Before
     public void createNewCourier(){
-        //log.info("{} - подготовка к тесту", this.getClass().getSimpleName());
+        logger.info("{} - подготовка к тесту", getCurrentTestMethod());
 
         createValidCourierEntity();
     }
 
     @Test
     @DisplayName("Создание курьера с валидными данными")
-    public void addNewCourierTest() {
-        //log.info("{} - тест выполняется...", this.getClass().getSimpleName());
+    public void createValidCourierTest() {
+        logger.info("{} - тест выполняется...", getCurrentTestMethod());
 
         createValidCourierAndCheck();
 
-        //log.info("{} - тест пройден", this.getClass().getSimpleName());
+        logger.info("{} - тест пройден", getCurrentTestMethod());
     }
 
     @After
