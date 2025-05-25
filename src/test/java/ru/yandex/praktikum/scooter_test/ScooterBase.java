@@ -1,5 +1,6 @@
 package ru.yandex.praktikum.scooter_test;
 
+import io.qameta.allure.Allure;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.Matcher;
@@ -52,5 +53,10 @@ public class ScooterBase {
         HttpExchangeDto exchange = ExchangeCaptureFilter.getLastExchange();
         logger.debug("Последний HTTP обмен:\n{}", exchange);
         AllureLogger.attachExchange("HTTP обмен (" + methodName + ")", exchange);
+    }
+
+    public void cleanUpCatch(Throwable e){
+        logger.warn("Очистка после теста завершилась с ошибкой: \n{}", e.getMessage());
+        Allure.step("Очистка после теста завершилась с ошибкой (НЕ влияет на результат теста): \n" + e.getMessage());
     }
 }

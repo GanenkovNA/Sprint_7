@@ -32,7 +32,7 @@ public class CourierService {
                 .password(courier.getPassword())
                 .build();
             return RestAssured.given()
-                    .log().ifValidationFails()
+                    .filter(new ExchangeCaptureFilter())
                     .contentType(ContentType.JSON)
                     .body(request)
                     .post("/api/v1/courier/login");
@@ -42,7 +42,7 @@ public class CourierService {
     public static Response deleteCourier(CourierEntity courier){
 
         return given()
-                .log().ifValidationFails()
+                .filter(new ExchangeCaptureFilter())
                 .delete("/api/v1/courier/" + courier.getId());
     }
 }

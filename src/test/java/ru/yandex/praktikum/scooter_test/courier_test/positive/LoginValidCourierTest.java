@@ -9,39 +9,39 @@ import org.slf4j.LoggerFactory;
 import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 
 
-@DisplayName("Проверка возможности создания курьера с валидными данными")
-public class CreateValidCourierTest extends CourierBase {
-    private static final Logger logger = LoggerFactory.getLogger(CreateValidCourierTest.class);
+@DisplayName("Проверка возможности логина курьера с валидными данными")
+public class LoginValidCourierTest extends CourierBase {
+    private static final Logger logger = LoggerFactory.getLogger(LoginValidCourierTest.class);
 
     @Before
     public void createValidCourier(){
-        logger.info("{} - подготовка к тесту...", getCurrentTestMethod());
+        logger.info("{} - подготовка к тесту", getCurrentTestMethod());
 
         createValidCourierEntity();
+        createValidCourierAndCheck();
 
         logger.info("{} - подготовка к тесту завершена", getCurrentTestMethod());
     }
 
+    @DisplayName("Логин курьера с валидными данными")
     @Test
-    @DisplayName("Создание курьера с валидными данными")
-    public void createValidCourierTest() {
+    public void loginCourierTest(){
         logger.info("{} - тест выполняется...", getCurrentTestMethod());
 
-        createValidCourierAndCheck();
+        loginValidCourierAndCheck();
 
         logger.info("{} - тест пройден", getCurrentTestMethod());
     }
 
     @After
     public void cleanUp(){
-        try {
+        try{
             logger.info("{} - очистка после теста...", getCurrentTestMethod());
 
-            loginValidCourierAndCheck();
             deleteValidCourierAndCheck();
 
             logger.info("{} - очистка после теста завершена", getCurrentTestMethod());
-        } catch (Throwable e) {
+        }catch (Throwable e){
             cleanUpCatch(e);
         }
     }
