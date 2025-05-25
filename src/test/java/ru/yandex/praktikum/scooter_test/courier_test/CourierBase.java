@@ -7,7 +7,6 @@ import ru.yandex.praktikum.scooter.courier.dto.CourierLoginResponseDto;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
-import org.hamcrest.Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.yandex.praktikum.scooter_test.ScooterBase;
@@ -18,7 +17,7 @@ import static ru.yandex.praktikum.scooter_test.courier_test.CourierService.*;
 
 
 public class CourierBase extends ScooterBase {
-    private static final Logger logger = LoggerFactory.getLogger(CourierBase.class);
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected CourierEntity courier;
 

@@ -4,45 +4,30 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 
 
 @DisplayName("Проверка возможности создания курьера с валидными данными")
 public class CreateValidCourierTest extends CourierBase {
-    private static final Logger logger = LoggerFactory.getLogger(CreateValidCourierTest.class);
 
     @Before
     public void createValidCourier(){
-        logger.info("{} - подготовка к тесту...", getCurrentTestMethod());
-
-        createValidCourierEntity();
-
-        logger.info("{} - подготовка к тесту завершена", getCurrentTestMethod());
+        methodBeforeWithLog(
+                this::createValidCourierEntity);
     }
 
     @Test
     @DisplayName("Создание курьера с валидными данными")
     public void createValidCourierTest() {
-        logger.info("{} - тест выполняется...", getCurrentTestMethod());
-
-        createValidCourierAndCheck();
-
-        logger.info("{} - тест пройден", getCurrentTestMethod());
+        methodTestWithLog(
+                this::createValidCourierAndCheck);
     }
 
     @After
     public void cleanUp(){
-        try {
-            logger.info("{} - очистка после теста...", getCurrentTestMethod());
-
+        safeCleanUp(() -> {
             loginValidCourierAndCheck();
             deleteValidCourierAndCheck();
-
-            logger.info("{} - очистка после теста завершена", getCurrentTestMethod());
-        } catch (Throwable e) {
-            cleanUpCatch(e);
-        }
+        });
     }
 }

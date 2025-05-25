@@ -29,6 +29,22 @@ public class ScooterBase {
         RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
     }
 
+    protected void methodBeforeWithLog(Runnable action){
+        logger.info("{} - подготовка к тесту...", getCurrentTestMethod());
+
+        action.run();
+
+        logger.info("{} - подготовка к тесту завершена", getCurrentTestMethod());
+    }
+
+    protected void methodTestWithLog(Runnable action){
+        logger.info("{} - тест выполняется...", getCurrentTestMethod());
+
+        action.run();
+
+        logger.info("{} - тест пройден", getCurrentTestMethod());
+    }
+
     protected void assertStatusCode(Response response, int expectedStatusCode, String methodName) {
         try {
             response.then().statusCode(expectedStatusCode);
@@ -55,8 +71,17 @@ public class ScooterBase {
         AllureLogger.attachExchange("HTTP обмен (" + methodName + ")", exchange);
     }
 
-    public void cleanUpCatch(Throwable e){
-        logger.warn("Очистка после теста завершилась с ошибкой: \n{}", e.getMessage());
-        Allure.step("Очистка после теста завершилась с ошибкой (НЕ влияет на результат теста): \n" + e.getMessage());
+    protected void safeCleanUp(Runnable action){
+        try {
+            logger.info("{} - очистка после теста...", getCurrentTestMethod());
+
+            action.run();
+
+            logger.info("{} - очистка после теста завершена", getCurrentTestMethod());
+        } catch (Throwable e) {
+            logger.warn("{} - очистка после теста завершилась с ошибкой: \n{}", getCurrentTestMethod(),e.getMessage());
+            Allure.step("Очистка после теста завершилась с ошибкой (НЕ влияет на результат теста): \n" + e.getMessage());
+            // не пробрасываем исключение, чтобы сам тест не оказался проваленным
+        }
     }
 }
