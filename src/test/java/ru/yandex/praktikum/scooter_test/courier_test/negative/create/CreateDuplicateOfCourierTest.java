@@ -29,8 +29,8 @@ public class CreateDuplicateOfCourierTest extends CourierBase {
 
             courierDuplicate = CourierEntity.builder()
                     .login(courier.getLogin())
-                    .password(generateRandomString(5))
-                    .firstName(generateRandomString(5))
+                    .password(generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING))
+                    .firstName(generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING))
                     .build();
         });
     }

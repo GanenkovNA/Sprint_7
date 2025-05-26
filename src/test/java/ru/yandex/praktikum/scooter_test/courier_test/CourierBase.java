@@ -21,6 +21,7 @@ public class CourierBase extends ScooterBase {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected CourierEntity courier;
+    protected static final int DEFAULT_LENGTH_OF_GENERATED_STRING = 5;
 
     @Step("Создание сущности курьера с валидными данными")
     public void createValidCourierEntity(){

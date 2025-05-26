@@ -39,9 +39,9 @@ public class CreateCourierWithMissingFieldTest extends CourierBase {
     @Parameterized.Parameters(name = "login={0}, password={1}, firstName={2}")
     public static Object[][] testData(){
         return new Object[][] {
-                {null, generateRandomString(5), generateRandomString(5)},
-                {generateRandomString(5), null, generateRandomString(5)},
-                {generateRandomString(5), generateRandomString(5), null}
+                {null, generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING)},
+                {generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), null, generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING)},
+                {generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), null}
         };
     }
 

@@ -26,7 +26,7 @@ public class LoginCourierWithInvalidPasswordTest extends CourierBase {
             createValidCourierEntity();
             createValidCourierAndVerify();
             courierWithInvalidPassword = courier.toBuilder()
-                    .password(generateRandomString(5))
+                    .password(generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING))
                     .build();
             logger.debug("Создана сущность курьера c неверным паролем: {}", courier);
         });

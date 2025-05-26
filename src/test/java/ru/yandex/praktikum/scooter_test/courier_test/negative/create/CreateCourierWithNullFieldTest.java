@@ -13,7 +13,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static ru.yandex.praktikum.infrastructure.RandomStringGenerator.generateRandomString;
 import static ru.yandex.praktikum.scooter_test.courier_test.CourierService.addNewCourier;
 
-
+@DisplayName("Проверка невозможности создания курьера с `null` полем")
 @RunWith(Parameterized.class)
 public class CreateCourierWithNullFieldTest extends CourierBase {
     private final String login;
@@ -32,9 +32,9 @@ public class CreateCourierWithNullFieldTest extends CourierBase {
     @Parameterized.Parameters(name = "login={0}, password={1}, firstName={2}")
     public static Object[][] testData(){
         return new Object[][] {
-                {null, generateRandomString(5), generateRandomString(5)},
-                {generateRandomString(5), null, generateRandomString(5)},
-                {generateRandomString(5), generateRandomString(5), null}
+                {null, generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING)},
+                {generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), null, generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING)},
+                {generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), null}
         };
     }
 
