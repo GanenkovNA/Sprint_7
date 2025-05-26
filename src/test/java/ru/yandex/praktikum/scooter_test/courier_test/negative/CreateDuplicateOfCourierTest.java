@@ -54,7 +54,7 @@ public class CreateDuplicateOfCourierTest extends CourierBase {
             assertBody(response,
                     "message",
                     equalTo(EXPECTED_MESSAGE_CREATE),
-                    "Ожидалось сообщение `\"message\": \"Этот логин уже используется\"`",
+                    "Ожидалось сообщение `\"message\": \""+ EXPECTED_MESSAGE_CREATE + "\"`",
                     getCurrentTestMethod());
         });
     }

@@ -1,5 +1,6 @@
 package ru.yandex.praktikum.scooter_test.courier_test;
 
+import io.qameta.allure.Allure;
 import org.hamcrest.MatcherAssert;
 import ru.yandex.praktikum.scooter.courier.dto.CourierEntity;
 import ru.yandex.praktikum.scooter.courier.dto.CourierLoginResponseDto;
@@ -114,17 +115,23 @@ public class CourierBase extends ScooterBase {
         logger.debug("Успешное удаление курьера {}", dropCourier.getLogin());
     }
 
+    @Step("Попытка аварийного удаления тестового клиента")
     protected void tryToDeleteInvalidCourierInCaseOfTestFail(CourierEntity invalidCourier){
         Response responseInvalidCourier = loginCourier(invalidCourier);
         if (responseInvalidCourier.getStatusCode() == 200){
-            invalidCourier.setCreated(true);
+            CourierLoginResponseDto responseDto = responseInvalidCourier.as(CourierLoginResponseDto.class);
+            invalidCourier.setId(responseDto.getId());
             try {
                 deleteAnyCourierAndVerify(invalidCourier);
-                logger.debug("Невалидный курьера {} удалён", invalidCourier.getLogin());
+                logger.debug("Невалидный курьер {} удалён", invalidCourier.getLogin());
+                Allure.step("Невалидный курьер " + invalidCourier.getLogin() + " удалён");
             }catch (Throwable t){
-                logger.debug("Ошибка удаления невалидного курьера {}", invalidCourier.getLogin());
+                logger.error("Ошибка удаления невалидного курьера {}", invalidCourier.getLogin());
+                Allure.step("Ошибка удаления невалидного курьера" + invalidCourier.getLogin());
             }
-        }else
+        }else{
             logger.debug("Удаление невалидного курьера {} не требуется", invalidCourier.getLogin());
+            Allure.step("Удаление невалидного курьера " + invalidCourier.getLogin() + " не требуется");
+        }
     }
 }
