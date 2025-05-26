@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.scooter_test.courier_test.negative;
+package ru.yandex.praktikum.scooter_test.courier_test.negative.create;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -95,7 +95,6 @@ public class CreateCourierWithMissingFieldTest extends CourierBase {
 
     private void createCourierWithMissingFieldAndVerify(Runnable verify){
         methodTestWithLog(() -> {
-
             logger.debug("Отправлен запрос на создание курьера {}", courier.getLogin());
 
             try{

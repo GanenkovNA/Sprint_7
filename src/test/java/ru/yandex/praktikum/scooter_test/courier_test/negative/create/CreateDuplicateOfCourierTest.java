@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.scooter_test.courier_test.negative;
+package ru.yandex.praktikum.scooter_test.courier_test.negative.create;
 
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
