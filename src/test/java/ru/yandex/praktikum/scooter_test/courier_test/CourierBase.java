@@ -25,7 +25,7 @@ public class CourierBase extends ScooterBase {
     public void createValidCourierEntity(){
         courier = CourierEntity.builder()
                 .login("bobr")
-                .password("null")
+                .password("dobr")
                 .firstName("superman")
                 .build();
 
@@ -33,54 +33,84 @@ public class CourierBase extends ScooterBase {
     }
 
     @Step("Проверка создания валидного курьера (кода статуса `201` и значения `ok`)")
-    public void createValidCourierAndCheck(){
+    public void createValidCourierAndVerify(){
         Response response = addNewCourier(courier);
 
         logger.debug("Отправлен запрос на создание курьера {}", courier.getLogin());
 
-        assertStatusCode(response, 201, "addNewValidCourierAndCheck");
-
-        assertBody(response, "ok", equalTo(true), "Ожидался `ok = true`", "addNewValidCourierAndCheck");
+        assertStatusCode(response,
+                201,
+                "addNewValidCourierAndCheck");
 
         courier.setCreated(true);
         logger.debug("Успешное создание курьера {}", courier.getLogin());
     }
 
     @Step("Проверка логина валидного курьера (кода статуса `200` и значения `id` (не null))")
-    public void loginValidCourierAndCheck(){
+    public void loginValidCourierAndVerify(){
+        loginCourierAndVerify(courier, "loginValidCourierAndVerify");
+    }
+
+    @Step("Проверка логина курьера (кода статуса `200` и значения `id` (не null))")
+    public void loginAnyCourierAndVerify(CourierEntity anyCourier){
+        loginCourierAndVerify(anyCourier, "loginAnyCourierAndVerify");
+    }
+
+    private void loginCourierAndVerify(CourierEntity loginCourier, String methodName){
         // Проверка, чтобы не отправлять заведомо невалидный запрос
         MatcherAssert.assertThat(
-                String.format("Запрос на логин курьера %s не был отправлен, так как курьер не был создан", courier.getLogin()),
-                courier.isCreated(),
+                String.format("Запрос на логин курьера %s не был отправлен, так как курьер не был создан", loginCourier.getLogin()),
+                loginCourier.isCreated(),
                 is(true));
 
-        logger.debug("Отправлен запрос на логин курьера {}", courier.getLogin());
+        Response response = loginCourier(loginCourier);
+        logger.debug("Отправлен запрос на логин курьера {}", loginCourier.getLogin());
 
-        Response response = loginCourier(courier);
-        assertStatusCode(response, 200, "loginValidCourierAndCheck");
-        assertBody(response, "id", notNullValue(), "Ожидалось значение `id` не `null`", "loginValidCourierAndCheck");
+        assertStatusCode(response,
+                200,
+                methodName);
+        assertBody(response,
+                "id",
+                notNullValue(),
+                "Ожидалось значение `id` не `null`",
+                methodName);
 
         CourierLoginResponseDto responseDto = response.as(CourierLoginResponseDto.class);
-        courier.setId(responseDto.getId());
+        loginCourier.setId(responseDto.getId());
 
-        logger.debug("Успешный логин курьера {}, его id: {}", courier.getLogin(), courier.getId());
+        logger.debug("Успешный логин курьера {}, его id: {}", loginCourier.getLogin(), loginCourier.getId());
     }
 
     @Step("Проверка удаления валидного курьера (кода статуса '200' и значения `ok`)")
-    public void deleteValidCourierAndCheck(){
+    public void deleteValidCourierAndVerify(){
+        deleteCourierAndVerify(courier, "deleteValidCourierAndCheck");
+    }
+
+    @Step("Проверка удаления курьера (кода статуса '200' и значения `ok`)")
+    public void deleteAnyCourierAndVerify(CourierEntity anyCourier){
+        deleteCourierAndVerify(anyCourier, "deleteAnyCourierAndVerify");
+    }
+
+    private void deleteCourierAndVerify(CourierEntity dropCourier, String methodName){
         // Проверка, чтобы не отправлять заведомо невалидный запрос
         MatcherAssert.assertThat(
-                String.format("Запрос на удаление курьера %s не был отправлен, так как значение `id = null`", courier.getLogin()),
-                courier.getId(),
+                String.format("Запрос на удаление курьера %s не был отправлен, так как значение `id = null`", dropCourier.getLogin()),
+                dropCourier.getId(),
                 notNullValue()
         );
 
-        logger.debug("Отправлен запрос на удаление курьера {}", courier.getLogin());
+        Response response = deleteCourier(dropCourier);
+        logger.debug("Отправлен запрос на удаление курьера {}", dropCourier.getLogin());
 
-        Response response = deleteCourier(courier);
-        assertStatusCode(response, 200, "deleteValidCourierAndCheck");
-        assertBody(response, "ok", equalTo(true), "Ожидался `ok = true`", "deleteValidCourierAndCheck");
+        assertStatusCode(response,
+                200,
+                methodName);
+        assertBody(response,
+                "ok",
+                equalTo(true),
+                "Ожидался `ok = true`",
+                methodName);
 
-        logger.debug("Успешное удаление курьера {}", courier.getLogin());
+        logger.debug("Успешное удаление курьера {}", dropCourier.getLogin());
     }
 }
