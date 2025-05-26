@@ -60,7 +60,7 @@ public class CourierBase extends ScooterBase {
         // Проверка, чтобы не отправлять заведомо невалидный запрос
         MatcherAssert.assertThat(
                 String.format("Запрос на логин курьера %s не был отправлен, так как курьер не был создан", loginCourier.getLogin()),
-                loginCourier.isCreated(),
+                loginCourier.getCreated(),
                 is(true));
 
         Response response = loginCourier(loginCourier);
@@ -112,5 +112,19 @@ public class CourierBase extends ScooterBase {
                 methodName);
 
         logger.debug("Успешное удаление курьера {}", dropCourier.getLogin());
+    }
+
+    protected void tryToDeleteInvalidCourierInCaseOfTestFail(CourierEntity invalidCourier){
+        Response responseInvalidCourier = loginCourier(invalidCourier);
+        if (responseInvalidCourier.getStatusCode() == 200){
+            invalidCourier.setCreated(true);
+            try {
+                deleteAnyCourierAndVerify(invalidCourier);
+                logger.debug("Невалидный курьера {} удалён", invalidCourier.getLogin());
+            }catch (Throwable t){
+                logger.debug("Ошибка удаления невалидного курьера {}", invalidCourier.getLogin());
+            }
+        }else
+            logger.debug("Удаление невалидного курьера {} не требуется", invalidCourier.getLogin());
     }
 }
