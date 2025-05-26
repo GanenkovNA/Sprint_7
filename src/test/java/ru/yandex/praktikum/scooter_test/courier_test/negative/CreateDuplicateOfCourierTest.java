@@ -16,6 +16,10 @@ import static ru.yandex.praktikum.scooter_test.courier_test.CourierService.*;
 public class CreateDuplicateOfCourierTest extends CourierBase {
     private CourierEntity courierDuplicate;
 
+    private final int EXPECTED_STATUS_CODE_CREATE = 409;
+    private final String EXPECTED_MESSAGE_CREATE = "Этот логин уже используется";
+    private final int EXPECTED_STATUS_CODE_LOGIN = 404;
+
     @Before
     public void createValidCourierAndCheckThrowLogin(){
         methodBeforeWithLog(() -> {
@@ -37,7 +41,7 @@ public class CreateDuplicateOfCourierTest extends CourierBase {
         Response response = addNewCourier(courierDuplicate);
         verifyCreateResponseWithLog(() -> {
             assertStatusCode(response,
-                    409,
+                    EXPECTED_STATUS_CODE_CREATE,
                     getCurrentTestMethod());
         });
     }
@@ -49,7 +53,7 @@ public class CreateDuplicateOfCourierTest extends CourierBase {
         verifyCreateResponseWithLog(() -> {
             assertBody(response,
                     "message",
-                    equalTo("Этот логин уже используется"),
+                    equalTo(EXPECTED_MESSAGE_CREATE),
                     "Ожидалось сообщение `\"message\": \"Этот логин уже используется\"`",
                     getCurrentTestMethod());
         });
@@ -62,7 +66,7 @@ public class CreateDuplicateOfCourierTest extends CourierBase {
         Response response = loginCourier(courierDuplicate);
         verifyLoginResponseWithLog(() -> {
             assertStatusCode(response,
-                    404,
+                    EXPECTED_STATUS_CODE_LOGIN,
                     getCurrentTestMethod());
         });
     }
@@ -95,16 +99,6 @@ public class CreateDuplicateOfCourierTest extends CourierBase {
 
     private void deleteDuplicateOfCourier(){
         logger.debug("Попытка удаления дубликата курьера {}", courierDuplicate.getLogin());
-        Response responseDuplicate = loginCourier(courierDuplicate);
-        if (responseDuplicate.getStatusCode() == 200){
-            courierDuplicate.setCreated(true);
-            try {
-                deleteAnyCourierAndVerify(courierDuplicate);
-                logger.debug("Дубликата курьера {} удалён", courierDuplicate.getLogin());
-            }catch (Throwable t){
-                logger.debug("Ошибка удаления дубликата курьера {}", courierDuplicate.getLogin());
-            }
-        }else
-            logger.debug("Удаление дубликата курьера {} не требуется", courierDuplicate.getLogin());
+        tryToDeleteInvalidCourierInCaseOfTestFail(courierDuplicate);
     }
 }
