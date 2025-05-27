@@ -14,6 +14,7 @@ import ru.yandex.praktikum.scooter_test.ScooterBase;
 
 
 import static org.hamcrest.CoreMatchers.*;
+import static ru.yandex.praktikum.infrastructure.RandomStringGenerator.generateRandomString;
 import static ru.yandex.praktikum.scooter_test.courier_test.CourierService.*;
 
 
@@ -21,14 +22,14 @@ public class CourierBase extends ScooterBase {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected CourierEntity courier;
-    protected static final int DEFAULT_LENGTH_OF_GENERATED_STRING = 5;
+    protected static final int DEFAULT_LENGTH_OF_GENERATED_STRING = 10;
 
     @Step("Создание сущности курьера с валидными данными")
     public void createValidCourierEntity(){
         courier = CourierEntity.builder()
-                .login("bobr")
-                .password("dobr")
-                .firstName("superman")
+                .login(generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING))
+                .password(generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING))
+                .firstName(generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING))
                 .build();
 
         logger.debug("Создана сущность курьера: {}", courier);
@@ -37,7 +38,6 @@ public class CourierBase extends ScooterBase {
     @Step("Проверка создания валидного курьера (кода статуса `201` и значения `ok`)")
     public void createValidCourierAndVerify(){
         Response response = addNewCourier(courier);
-
         logger.debug("Отправлен запрос на создание курьера {}", courier.getLogin());
 
         assertStatusCode(response,
