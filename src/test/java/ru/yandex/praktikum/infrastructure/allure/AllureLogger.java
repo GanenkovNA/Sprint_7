@@ -17,10 +17,7 @@ public class AllureLogger {
         Allure.addAttachment(name, "application/json", json);
     }
 
-    public class AllureLogger {
-        public static void attachStep(String message) {
+    public static void attachStep(String message) {
             Allure.step(message);
-        }
     }
-
 }
