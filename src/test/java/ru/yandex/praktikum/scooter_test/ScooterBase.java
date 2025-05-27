@@ -17,6 +17,8 @@ public class ScooterBase {
 
     private static final Logger logger = LoggerFactory.getLogger(ScooterBase.class);
 
+    protected static final int DEFAULT_LENGTH_OF_GENERATED_STRING = 10;
+
     @Rule
     public TestName testName = new TestName();
 
