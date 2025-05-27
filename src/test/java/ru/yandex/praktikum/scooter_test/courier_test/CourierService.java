@@ -6,9 +6,6 @@ import ru.yandex.praktikum.scooter.courier.dto.CourierEntity;
 import ru.yandex.praktikum.scooter.courier.dto.CourierLoginRequestDto;
 import ru.yandex.praktikum.infrastructure.rest_assured.ApiClient;
 
-import static io.restassured.RestAssured.given;
-
-
 public class CourierService {
     public static Response addNewCourier(CourierEntity courier) {
         CourierCreationRequestDto request = CourierCreationRequestDto.builder()
@@ -30,7 +27,7 @@ public class CourierService {
                 .build();
 
         return ApiClient.post(
-                "",
+                "/api/v1/courier/login",
                 request,
                 "Логин курьера " + courier.getLogin());
     }
