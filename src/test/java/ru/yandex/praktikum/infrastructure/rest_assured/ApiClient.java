@@ -1,9 +1,9 @@
+package ru.yandex.praktikum.infrastructure.rest_assured;
+
 import io.qameta.allure.Step;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.http.ContentType;
 import ru.yandex.praktikum.infrastructure.allure.AllureLogger;
-import ru.yandex.praktikum.infrastructure.rest_assured.ExchangeCaptureFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
