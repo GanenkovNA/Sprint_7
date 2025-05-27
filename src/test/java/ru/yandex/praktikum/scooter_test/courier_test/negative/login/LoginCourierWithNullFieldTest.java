@@ -1,8 +1,5 @@
 package ru.yandex.praktikum.scooter_test.courier_test.negative.login;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
@@ -10,25 +7,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import ru.yandex.praktikum.infrastructure.rest_assured.ApiClient;
 import ru.yandex.praktikum.scooter.courier.dto.CourierEntity;
 import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static ru.yandex.praktikum.scooter_test.courier_test.CourierService.loginCourier;
 
-@DisplayName("Проверка невозможности логина курьера с отсутствующим полем")
+@DisplayName("Проверка невозможности логина курьера с null полем")
 @RunWith(Parameterized.class)
-public class LoginCourierWithMissingFieldTest extends CourierBase{
+public class LoginCourierWithNullFieldTest extends CourierBase {
     private final String login;
     private final String password;
 
     private CourierEntity courierWithMissingField;
-    private String courierWithMissingFieldAsString;
 
     private final int EXPECTED_STATUS_CODE = 400;
     private final String EXPECTED_MESSAGE = "Недостаточно данных для входа";
 
-    public LoginCourierWithMissingFieldTest(String login, String password) {
+    public LoginCourierWithNullFieldTest(String login, String password) {
         this.login = login;
         this.password = password;
     }
@@ -41,7 +37,7 @@ public class LoginCourierWithMissingFieldTest extends CourierBase{
         };
     }
 
-    @DisplayName("Подготовка запроса курьера с отсутствующим полем")
+    @DisplayName("Подготовка запроса курьера с null полем")
     @Before
     public void createCourierEntityWithMissingField(){
         methodBeforeWithLog(() -> {
@@ -57,22 +53,16 @@ public class LoginCourierWithMissingFieldTest extends CourierBase{
                     .created(null)
                     .build();
 
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-            try {
-                courierWithMissingFieldAsString = mapper.writeValueAsString(courierWithMissingField);
-            } catch (JsonProcessingException e) {
-                logger.error("Some error? {}", String.valueOf(e));
-            }
+
         });
     }
 
     @DisplayName("Проверка кода ответа (`" + EXPECTED_STATUS_CODE + "`)")
     @Test
-    public void shouldNotLoginCourierWithMissingFieldAndVerifyStatusCode() {
+    public void shouldNotLoginCourierWithNullFieldAndVerifyStatusCode() {
         methodTestWithLog(() -> {
-            Response response = loginCourierWithMissingFields();
-            loginCourierWithMissingFieldAndVerify(() -> {
+            Response response = loginCourier(courierWithMissingField);
+            loginCourierWithNullFieldAndVerify(() -> {
                 assertStatusCode(response,
                         EXPECTED_STATUS_CODE,
                         getCurrentTestMethod());
@@ -82,10 +72,10 @@ public class LoginCourierWithMissingFieldTest extends CourierBase{
 
     @DisplayName("Проверка параметра `message` в ответе")
     @Test
-    public void shouldNotCreateCourierWithMissingFieldAndVerifyMessage(){
+    public void shouldNotCreateCourierWithNullFieldAndVerifyMessage(){
         methodTestWithLog(() -> {
-            Response response = loginCourierWithMissingFields();
-            loginCourierWithMissingFieldAndVerify(() -> {
+            Response response = loginCourier(courierWithMissingField);
+            loginCourierWithNullFieldAndVerify(() -> {
                 assertBody(response,
                         "message",
                         equalTo(EXPECTED_MESSAGE),
@@ -101,19 +91,11 @@ public class LoginCourierWithMissingFieldTest extends CourierBase{
                 this::loginValidCourierAndVerify);
     }
 
-    private void loginCourierWithMissingFieldAndVerify(Runnable verify){
+    private void loginCourierWithNullFieldAndVerify(Runnable verify){
         methodTestWithLog(() -> {
             logger.debug("Отправлен запрос на логин курьера {}", courier.getLogin());
 
             verify.run();
         });
-    }
-
-    //Нужен для передачи строки
-    private Response loginCourierWithMissingFields(){
-        return ApiClient.post(
-                "/api/v1/courier/login",
-                courierWithMissingFieldAsString,
-                "Логин курьера без поля");
     }
 }
