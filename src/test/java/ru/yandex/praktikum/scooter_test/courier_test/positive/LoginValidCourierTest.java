@@ -36,7 +36,7 @@ public class LoginValidCourierTest extends CourierBase {
 
     @DisplayName("Проверка параметра `id` (не `Null`) в ответе")
     @Test
-    public void loginCourierTestAndCheckAndCheckBodyParameterId(){
+    public void loginCourierTestAndCheckAndVerifyBodyParameterId(){
         Response response = loginCourier(courier);
         verifyResponseWithLog(response, () -> {
             assertBody(response,
