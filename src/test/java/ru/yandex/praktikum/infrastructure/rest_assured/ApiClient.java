@@ -87,5 +87,16 @@ public class ApiClient {
         );
     }
 
-    // Можно расширить методами put(), patch(), auth() и др.
+    public static Response put(String path, Object body, String actionName) {
+        return send(() ->
+                        given()
+                                .filter(FILTER)
+                                .contentType(ContentType.JSON)
+                                .body(body)
+                                .put(path),
+                actionName
+        );
+    }
+
+    // Можно расширить методами patch(), auth() и др.
 }
