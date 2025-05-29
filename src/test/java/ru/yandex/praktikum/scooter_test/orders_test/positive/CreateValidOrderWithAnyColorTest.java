@@ -15,10 +15,10 @@ import static ru.yandex.praktikum.scooter_test.orders_test.OrdersService.createO
 
 @DisplayName("Проверка возможности создания заказа с одним цветом")
 @RunWith(Parameterized.class)
-public class CreateValidOrderWithOnlyColorTest extends OrdersBase {
+public class CreateValidOrderWithAnyColorTest extends OrdersBase {
     private final String[] color;
 
-    public CreateValidOrderWithOnlyColorTest(String[] color) {
+    public CreateValidOrderWithAnyColorTest(String[] color) {
         this.color = color;
     }
 
@@ -26,7 +26,8 @@ public class CreateValidOrderWithOnlyColorTest extends OrdersBase {
     public static Object[][] testData(){
         return new Object[][] {
                 {new String[]{"GREY"}},
-                {new String[]{"BLACK"}}
+                {new String[]{"BLACK"}},
+                {new String[]{"GREY", "BLACK"}}
         };
     }
 
@@ -64,6 +65,7 @@ public class CreateValidOrderWithOnlyColorTest extends OrdersBase {
     @After
     public void cleanUp(){
         safeCleanUp(() -> {
+            getOrderByTrackAndVerify(getCurrentTestMethod());
             cancelOrderAndVerify(getCurrentTestMethod());
         });
     }
