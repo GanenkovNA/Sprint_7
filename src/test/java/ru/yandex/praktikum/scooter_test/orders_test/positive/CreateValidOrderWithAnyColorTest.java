@@ -1,5 +1,6 @@
 package ru.yandex.praktikum.scooter_test.orders_test.positive;
 
+import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
@@ -18,6 +19,8 @@ import static ru.yandex.praktikum.scooter_test.orders_test.OrdersService.createO
 public class CreateValidOrderWithAnyColorTest extends OrdersBase {
     private final String[] color;
 
+    private final int EXPECTED_STATUS_CODE = 201;
+
     public CreateValidOrderWithAnyColorTest(String[] color) {
         this.color = color;
     }
@@ -32,6 +35,7 @@ public class CreateValidOrderWithAnyColorTest extends OrdersBase {
         };
     }
 
+    @DisplayName("Создание сущности тестового заказа")
     @Before
     public void createValidOrderWithOnlyColor(){
         methodBeforeWithLog(() -> {
@@ -40,6 +44,7 @@ public class CreateValidOrderWithAnyColorTest extends OrdersBase {
         });
     }
 
+    @DisplayName("Проверка кода ответа (`" + EXPECTED_STATUS_CODE + "`)")
     @Test
     public void shouldCreateValidOrderWithOnlyColorAndVerifyStatusCode(){
         Response response = createOrder(order);
@@ -50,6 +55,7 @@ public class CreateValidOrderWithAnyColorTest extends OrdersBase {
         });
     }
 
+    @DisplayName("Проверка параметра `track` в ответе")
     @Test
     public void shouldCreateValidOrderWithOnlyColorAndVerifyBodyParameterTrack(){
         Response response = createOrder(order);
