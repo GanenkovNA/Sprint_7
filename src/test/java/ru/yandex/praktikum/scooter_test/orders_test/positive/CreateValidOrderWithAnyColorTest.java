@@ -1,6 +1,5 @@
 package ru.yandex.praktikum.scooter_test.orders_test.positive;
 
-import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
@@ -50,7 +49,7 @@ public class CreateValidOrderWithAnyColorTest extends OrdersBase {
         Response response = createOrder(order);
         createValidOrderWithOnlyColorAndVerify(response, () -> {
             assertStatusCode(response,
-                    201,
+                    EXPECTED_STATUS_CODE,
                     getCurrentTestMethod());
         });
     }

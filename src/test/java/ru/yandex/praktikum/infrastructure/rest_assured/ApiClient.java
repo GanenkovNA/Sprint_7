@@ -97,6 +97,4 @@ public class ApiClient {
                 actionName
         );
     }
-
-    // Можно расширить методами patch(), auth() и др.
 }

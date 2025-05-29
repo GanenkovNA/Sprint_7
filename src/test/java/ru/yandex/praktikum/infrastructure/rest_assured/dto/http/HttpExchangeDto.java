@@ -11,7 +11,4 @@ public class HttpExchangeDto {
     public String toString() {
         return request.toString() + "\n" + response.toString();
     }
-
-    // геттеры, если нужно
-
 }
