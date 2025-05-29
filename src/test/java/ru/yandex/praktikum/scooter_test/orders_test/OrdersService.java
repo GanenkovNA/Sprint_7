@@ -26,6 +26,14 @@ public class OrdersService {
                 "Попытка создания заказа");
     }
 
+    public static Response getOrderByTrack(OrderEntity order){
+        return ApiClient.get(
+                "/api/v1/orders/track?t=" + order.getTrack(),
+                String.format("Попытка получения данных по заказу с `track = %s`", order.getTrack())
+        );
+    }
+
+
     public static Response cancelOrder(OrderEntity order){
         OrderCancelRequestDto request = OrderCancelRequestDto.builder()
                 .track(order.getTrack())

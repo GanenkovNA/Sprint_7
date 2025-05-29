@@ -27,4 +27,7 @@ public class OrderEntity {
 
     //для ответа при создании заказа
     private String track;
+
+    // для ответа при получении заказа по track
+    private Boolean cancelled;
 }
