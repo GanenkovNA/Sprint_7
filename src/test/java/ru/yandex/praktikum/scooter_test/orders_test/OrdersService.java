@@ -45,4 +45,10 @@ public class OrdersService {
                 "Попытка отмены заказа " + order.getTrack()
         );
     }
+    public static Response getDefaultListOfOrders(){
+        return ApiClient.get(
+                "/api/v1/orders",
+                "Попытка получить список заказов"
+        );
+    }
 }
