@@ -27,7 +27,8 @@ public class CreateValidOrderWithAnyColorTest extends OrdersBase {
         return new Object[][] {
                 {new String[]{"GREY"}},
                 {new String[]{"BLACK"}},
-                {new String[]{"GREY", "BLACK"}}
+                {new String[]{"GREY", "BLACK"}},
+                {new String[]{}}
         };
     }
 
