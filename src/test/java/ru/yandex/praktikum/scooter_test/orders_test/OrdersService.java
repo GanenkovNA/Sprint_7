@@ -2,8 +2,8 @@ package ru.yandex.praktikum.scooter_test.orders_test;
 
 import io.restassured.response.Response;
 import ru.yandex.praktikum.infrastructure.rest_assured.ApiClient;
-import ru.yandex.praktikum.scooter.orders.dto.OrderCancelRequestDto;
-import ru.yandex.praktikum.scooter.orders.dto.OrderCreationRequestDto;
+import ru.yandex.praktikum.scooter.orders.dto.cancel.OrderCancelRequestDto;
+import ru.yandex.praktikum.scooter.orders.dto.create.OrderCreationRequestDto;
 import ru.yandex.praktikum.scooter.orders.dto.OrderEntity;
 
 public class OrdersService {

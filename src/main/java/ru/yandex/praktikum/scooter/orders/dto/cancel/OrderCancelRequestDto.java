@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.scooter.orders.dto;
+package ru.yandex.praktikum.scooter.orders.dto.cancel;
 
 import lombok.Builder;
 import lombok.Data;

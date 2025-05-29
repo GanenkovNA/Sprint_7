@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import ru.yandex.praktikum.scooter.orders.dto.OrderCreationResponseDto;
+import ru.yandex.praktikum.scooter.orders.dto.create.OrderCreationResponseDto;
 import ru.yandex.praktikum.scooter_test.orders_test.OrdersBase;
 
 import static org.hamcrest.CoreMatchers.notNullValue;

@@ -5,7 +5,7 @@ import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.yandex.praktikum.scooter.courier.dto.CourierLoginResponseDto;
+import ru.yandex.praktikum.scooter.courier.dto.login.CourierLoginResponseDto;
 import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 
 import static org.hamcrest.CoreMatchers.notNullValue;

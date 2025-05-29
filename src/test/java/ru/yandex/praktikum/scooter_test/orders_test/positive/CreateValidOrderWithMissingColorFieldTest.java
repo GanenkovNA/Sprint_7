@@ -11,7 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.yandex.praktikum.infrastructure.rest_assured.ExchangeCaptureFilter;
-import ru.yandex.praktikum.scooter.orders.dto.OrderCreationResponseDto;
+import ru.yandex.praktikum.scooter.orders.dto.create.OrderCreationResponseDto;
 import ru.yandex.praktikum.scooter_test.orders_test.OrdersBase;
 
 import static org.hamcrest.CoreMatchers.notNullValue;

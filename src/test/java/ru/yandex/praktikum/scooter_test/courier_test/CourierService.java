@@ -1,9 +1,9 @@
 package ru.yandex.praktikum.scooter_test.courier_test;
 
 import io.restassured.response.Response;
-import ru.yandex.praktikum.scooter.courier.dto.CourierCreationRequestDto;
+import ru.yandex.praktikum.scooter.courier.dto.create.CourierCreationRequestDto;
 import ru.yandex.praktikum.scooter.courier.dto.CourierEntity;
-import ru.yandex.praktikum.scooter.courier.dto.CourierLoginRequestDto;
+import ru.yandex.praktikum.scooter.courier.dto.login.CourierLoginRequestDto;
 import ru.yandex.praktikum.infrastructure.rest_assured.ApiClient;
 
 public class CourierService {

@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.scooter.orders.dto;
+package ru.yandex.praktikum.scooter.orders.dto.create;
 
 import lombok.Data;
 

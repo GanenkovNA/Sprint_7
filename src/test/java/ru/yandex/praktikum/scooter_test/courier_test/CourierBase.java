@@ -3,7 +3,7 @@ package ru.yandex.praktikum.scooter_test.courier_test;
 import io.qameta.allure.Allure;
 import org.hamcrest.MatcherAssert;
 import ru.yandex.praktikum.scooter.courier.dto.CourierEntity;
-import ru.yandex.praktikum.scooter.courier.dto.CourierLoginResponseDto;
+import ru.yandex.praktikum.scooter.courier.dto.login.CourierLoginResponseDto;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;

@@ -1,11 +1,9 @@
-package ru.yandex.praktikum.scooter.orders.dto;
+package ru.yandex.praktikum.scooter.orders.dto.get;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class OrderGetByTrackResponseArrayDto {
+public class OrderGetResponseArrayDto {
     private Integer id;
     private String firstName;
     private String lastName;
