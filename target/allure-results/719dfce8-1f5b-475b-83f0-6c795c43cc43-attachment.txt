@@ -1,0 +1,26 @@
+=== ОШИБКА ПРИ HTTP ОБМЕНЕ ===
+▶ ЗАПРОС: PUT https://qa-scooter.praktikum-services.ru/api/v1/orders/cancel
+├─ Заголовки запроса:
+│   Accept: */*
+│   Content-Type: application/json
+└─ Тело запроса:
+    {
+      "track" : "359634"
+    }
+
+▶ Ответ: HTTP/1.1 400 Bad Request (103 мс)
+├─ Заголовки ответа:
+│   Access-Control-Allow-Origin: *
+│   X-Powered-By: Express
+│   Content-Type: application/json; charset=utf-8
+│   Date: Thu, 29 May 2025 16:23:36 GMT
+│   X-Request-Id: 1748535816070491-6832186226833215406
+│   ETag: W/"52-NEb1sihdUImnV9vUyVCvOlniC48"
+│   Set-Cookie: _yasc=ddDNpxVsJ3sYzudgKJRCgOMjS2sGxzV5LVA8wmfgcnHChroGma0XlM4f7LfGluDr; domain=.praktikum-services.ru; path=/; expires=Sun, 27 May 2035 16:23:36 GMT; secure
+│   Content-Length: 82
+└─ Тело ответа:
+    {
+      "code" : 400,
+      "message" : "Недостаточно данных для поиска"
+    }
+=== КОНЕЦ HTTP ОБМЕНА ===
