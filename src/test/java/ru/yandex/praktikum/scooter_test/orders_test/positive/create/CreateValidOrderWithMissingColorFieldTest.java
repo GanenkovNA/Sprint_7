@@ -3,6 +3,7 @@ package ru.yandex.praktikum.scooter_test.orders_test.positive.create;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -14,6 +15,7 @@ import ru.yandex.praktikum.infrastructure.rest_assured.ExchangeCaptureFilter;
 import ru.yandex.praktikum.scooter.orders.dto.create.OrderCreationResponseDto;
 import ru.yandex.praktikum.scooter_test.orders_test.OrdersBase;
 
+import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 @DisplayName("Проверка возможности создания заказа без поля `color`")
@@ -39,28 +41,32 @@ public class CreateValidOrderWithMissingColorFieldTest extends OrdersBase {
         });
     }
 
-    @DisplayName("Проверка кода ответа (`" + EXPECTED_STATUS_CODE + "`)")
+    @DisplayName("Создание заказа без поля `color` и проверка ответа")
+    @Description("Проверяются следующие параметры: \n" +
+            "Код ответа - " + SC_CREATED + "\n" +
+            "В теле содержится `track != null`")
     @Test
-    public void shouldCreateValidOrderWithMissingColorFieldAndVerifyStatusCode(){
-        Response response = createOrderWithMissingFields(orderWithMissingField);
-        createValidOrderWithMissingColorFieldAndVerify(response, () -> {
-            assertStatusCode(response,
-                    EXPECTED_STATUS_CODE,
-                    getCurrentTestMethod());
-        });
-    }
+    public void shouldCreateValidOrderWithMissingColorFieldAndVerifyResponse(){
+        methodTestWithLog(() -> {
+            Response response = createOrderWithMissingFields(orderWithMissingField);
 
-    @DisplayName("Проверка параметра `track` в ответе")
-    @Test
-    public void shouldCreateValidOrderWithMissingColorFieldAndVerifyBodyParameterTrack(){
-        Response response = createOrderWithMissingFields(orderWithMissingField);
-        createValidOrderWithMissingColorFieldAndVerify(response, () -> {
+            logger.debug("Отправлен запрос на создание заказа");
+
+            assertStatusCode(response,
+                    SC_CREATED,
+                    getCurrentTestMethod());
+
             assertBody(
                     response,
                     "track",
                     notNullValue(),
                     "Ожидалось значение `track` не `null`",
                     getCurrentTestMethod());
+
+            OrderCreationResponseDto responseDto = response.as(OrderCreationResponseDto.class);
+            order.setTrack(responseDto.getTrack());
+
+            logger.debug("Создан заказ {}", order.getTrack());
         });
     }
 
@@ -69,19 +75,6 @@ public class CreateValidOrderWithMissingColorFieldTest extends OrdersBase {
         safeCleanUp(() -> {
             getOrderByTrackAndVerify(getCurrentTestMethod());
             cancelOrderAndVerify(getCurrentTestMethod());
-        });
-    }
-
-    private void createValidOrderWithMissingColorFieldAndVerify(Response response, Runnable check){
-        methodTestWithLog(() -> {
-            logger.debug("Отправлен запрос на создание заказа");
-
-            check.run();
-
-            OrderCreationResponseDto responseDto = response.as(OrderCreationResponseDto.class);
-            order.setTrack(responseDto.getTrack());
-
-            logger.debug("Создан заказ {}", order.getTrack());
         });
     }
 
