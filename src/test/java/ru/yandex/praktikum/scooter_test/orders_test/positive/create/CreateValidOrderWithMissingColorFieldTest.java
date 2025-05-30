@@ -21,7 +21,6 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 @DisplayName("Проверка возможности создания заказа без поля `color`")
 public class CreateValidOrderWithMissingColorFieldTest extends OrdersBase {
     private final String[] color = null;
-    private final int EXPECTED_STATUS_CODE = 201;
     private String orderWithMissingField;
 
     @Before

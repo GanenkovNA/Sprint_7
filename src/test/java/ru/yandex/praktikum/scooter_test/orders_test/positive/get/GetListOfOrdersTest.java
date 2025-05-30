@@ -1,51 +1,40 @@
 package ru.yandex.praktikum.scooter_test.orders_test.positive.get;
 
+import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.Test;
 import ru.yandex.praktikum.scooter_test.orders_test.OrdersBase;
 
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static ru.yandex.praktikum.scooter_test.orders_test.OrdersService.getDefaultListOfOrders;
 
+@DisplayName("Проверка возможности получения списка заказов без указания необязательных полей")
 public class GetListOfOrdersTest extends OrdersBase {
-    private final int EXPECTED_STATUS_CODE = 200;
 
-    @DisplayName("Проверка кода ответа (`" + EXPECTED_STATUS_CODE + "`)")
+    @DisplayName("Запрос списка заказов без указания необязательных полей и проверка ответа")
+    @Description("Проверяются следующие параметры: \n" +
+            "Код ответа - " + SC_OK + "\n" +
+            "В теле содержатся `orders`, `pageInfo{page, total, limit}` и `availableStations`, не содержащие `null`")
     @Test
-    public void shouldReturnListOfOrdersAndVerifyStatusCode(){
-        Response response = getDefaultListOfOrders();
-        returnListOfOrdersAndVerify(() -> {
+    public void shouldReturnListOfOrdersAndVerifyResponse(){
+        methodTestWithLog(() -> {
+            Response response = getDefaultListOfOrders();
+
+            logger.debug("Отправлен запрос на получение списка заказов");
+
             assertStatusCode(response,
-                    EXPECTED_STATUS_CODE,
+                    SC_OK,
                     getCurrentTestMethod());
-        });
-    }
 
-    @DisplayName("Проверка параметра `orders` в ответе")
-    @Test
-    public void shouldReturnListOfOrdersAndVerifyBodyParameterOrders(){
-        Response response = getDefaultListOfOrders();
-        returnListOfOrdersAndVerify(() -> {
-            assertBody(
-                    response,
-                    "orders",
-                    notNullValue(),
-                    "Ожидалось значение `orders` не `null`",
-                    getCurrentTestMethod());
-        });
-    }
-
-    @DisplayName("Проверка параметров `pageInfo` в ответе")
-    @Test
-    public void shouldReturnListOfOrdersAndVerifyBodyParameterPageInfo(){
-        Response response = getDefaultListOfOrders();
-        returnListOfOrdersAndVerify(() -> {
             String[] jsonPathsOfPageInfoParameters = new String[]{
+                    "orders",
                     "pageInfo",
                     "pageInfo.page",
                     "pageInfo.total",
-                    "pageInfo.limit"
+                    "pageInfo.limit",
+                    "availableStations",
             };
 
             for (String jsonPathsOfPageInfoParameter : jsonPathsOfPageInfoParameters) {
@@ -56,28 +45,6 @@ public class GetListOfOrdersTest extends OrdersBase {
                         "Ожидалось значение `" + jsonPathsOfPageInfoParameter + "` не `null`",
                         getCurrentTestMethod());
             }
-        });
-    }
-
-    @DisplayName("Проверка параметра `availableStations` в ответе")
-    @Test
-    public void shouldReturnListOfOrdersAndVerifyBodyParameterAvailableStations(){
-        Response response = getDefaultListOfOrders();
-        returnListOfOrdersAndVerify(() -> {
-            assertBody(
-                    response,
-                    "availableStations",
-                    notNullValue(),
-                    "Ожидалось значение `availableStations` не `null`",
-                    getCurrentTestMethod());
-        });
-    }
-
-    private void returnListOfOrdersAndVerify(Runnable verify){
-        methodTestWithLog(() -> {
-            logger.debug("Отправлен запрос на получение списка заказов");
-
-            verify.run();
 
             logger.debug("Список заказов получен");
         });
