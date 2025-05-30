@@ -1,5 +1,6 @@
 package ru.yandex.praktikum.scooter_test.orders_test.positive.create;
 
+import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
@@ -10,15 +11,14 @@ import org.junit.runners.Parameterized;
 import ru.yandex.praktikum.scooter.orders.dto.create.OrderCreationResponseDto;
 import ru.yandex.praktikum.scooter_test.orders_test.OrdersBase;
 
+import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static ru.yandex.praktikum.scooter_test.orders_test.OrdersService.createOrder;
 
-@DisplayName("Проверка возможности создания заказа с одним цветом")
+@DisplayName("Проверка возможности создания заказа с цветом")
 @RunWith(Parameterized.class)
 public class CreateValidOrderWithAnyColorTest extends OrdersBase {
     private final String[] color;
-
-    private final int EXPECTED_STATUS_CODE = 201;
 
     public CreateValidOrderWithAnyColorTest(String[] color) {
         this.color = color;
@@ -36,35 +36,39 @@ public class CreateValidOrderWithAnyColorTest extends OrdersBase {
 
     @DisplayName("Создание сущности тестового заказа")
     @Before
-    public void createValidOrderWithOnlyColor(){
+    public void createValidOrderWithAnyColor(){
         methodBeforeWithLog(() -> {
             createDefaultOrderEntityWithCustomColor(color);
             logger.debug("Создана сущность заказа {}", order);
         });
     }
 
-    @DisplayName("Проверка кода ответа (`" + EXPECTED_STATUS_CODE + "`)")
+    @DisplayName("Создание заказа с цветом и проверка ответа")
+    @Description("Проверяются следующие параметры: \n" +
+            "Код ответа - " + SC_CREATED + "\n" +
+            "В теле содержится `track != null`")
     @Test
-    public void shouldCreateValidOrderWithOnlyColorAndVerifyStatusCode(){
-        Response response = createOrder(order);
-        createValidOrderWithOnlyColorAndVerify(response, () -> {
-            assertStatusCode(response,
-                    EXPECTED_STATUS_CODE,
-                    getCurrentTestMethod());
-        });
-    }
+    public void shouldCreateValidOrderWithAnyColorAndVerifyResponse(){
+        methodTestWithLog(() -> {
+            Response response = createOrder(order);
 
-    @DisplayName("Проверка параметра `track` в ответе")
-    @Test
-    public void shouldCreateValidOrderWithOnlyColorAndVerifyBodyParameterTrack(){
-        Response response = createOrder(order);
-        createValidOrderWithOnlyColorAndVerify(response, () -> {
+            logger.debug("Отправлен запрос на создание заказа");
+
+            assertStatusCode(response,
+                    SC_CREATED,
+                    getCurrentTestMethod());
+
             assertBody(
                     response,
                     "track",
                     notNullValue(),
                     "Ожидалось значение `track` не `null`",
                     getCurrentTestMethod());
+
+            OrderCreationResponseDto responseDto = response.as(OrderCreationResponseDto.class);
+            order.setTrack(responseDto.getTrack());
+
+            logger.debug("Создан заказ {}", order.getTrack());
         });
     }
 
@@ -73,19 +77,6 @@ public class CreateValidOrderWithAnyColorTest extends OrdersBase {
         safeCleanUp(() -> {
             getOrderByTrackAndVerify(getCurrentTestMethod());
             cancelOrderAndVerify(getCurrentTestMethod());
-        });
-    }
-
-    private void createValidOrderWithOnlyColorAndVerify(Response response, Runnable check){
-        methodTestWithLog(() -> {
-            logger.debug("Отправлен запрос на создание заказа");
-
-            check.run();
-
-            OrderCreationResponseDto responseDto = response.as(OrderCreationResponseDto.class);
-            order.setTrack(responseDto.getTrack());
-
-            logger.debug("Создан заказ {}", order.getTrack());
         });
     }
 }

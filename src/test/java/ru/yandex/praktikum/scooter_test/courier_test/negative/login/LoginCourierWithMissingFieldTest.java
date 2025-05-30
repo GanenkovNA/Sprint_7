@@ -73,7 +73,7 @@ public class LoginCourierWithMissingFieldTest extends CourierBase{
             "Код ответа - " + SC_BAD_REQUEST + "\n" +
             "В теле содержится `message = " + EXPECTED_MESSAGE + "`")
     @Test
-    public void shouldNotLoginCourierWithMissingFieldAndVerifyStatusCode() {
+    public void shouldNotLoginCourierWithMissingFieldAndVerifyResponse() {
         methodTestWithLog(() -> {
             Response response = loginCourierWithMissingFields();
 

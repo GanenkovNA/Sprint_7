@@ -28,7 +28,7 @@ public class LoginNonExistentCourierTest extends CourierBase {
             "Код ответа - " + SC_NOT_FOUND + "\n" +
             "В теле содержится `message = " + EXPECTED_MESSAGE + "`")
     @Test
-    public void shouldNotLoginCourierWithInvalidPasswordAndVerifyStatusCode(){
+    public void shouldNotLoginCourierWithInvalidPasswordAndVerifyResponse(){
         methodTestWithLog(() -> {
             Response response = loginCourier(courier);
 

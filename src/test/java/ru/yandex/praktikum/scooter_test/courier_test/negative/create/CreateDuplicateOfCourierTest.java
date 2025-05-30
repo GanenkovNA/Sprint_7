@@ -40,7 +40,7 @@ public class CreateDuplicateOfCourierTest extends CourierBase {
             "Код ответа - " + SC_CONFLICT + "\n" +
             "В теле содержится `message = " + EXPECTED_MESSAGE_CREATE + "`")
     @Test
-    public void shouldNotCreateDuplicateOfCourierAndVerify(){
+    public void shouldNotCreateDuplicateOfCourierAndVerifyResponse(){
         methodTestWithLog(() -> {
             Response response = addNewCourier(courierDuplicate);
 

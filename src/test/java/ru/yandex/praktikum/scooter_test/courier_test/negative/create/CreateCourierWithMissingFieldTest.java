@@ -75,7 +75,7 @@ public class CreateCourierWithMissingFieldTest extends CourierBase {
             "Код ответа - " + SC_BAD_REQUEST + "\n" +
             "В теле содержится `message = " + EXPECTED_MESSAGE + "`")
     @Test
-    public void shouldNotCreateCourierWithMissingFieldAndVerifyMessage(){
+    public void shouldNotCreateCourierWithMissingFieldAndVerifyResponse(){
         methodTestWithLog(() -> {
             Response response = addNewCourierWithMissingFields(courierWithMissingField);
 
