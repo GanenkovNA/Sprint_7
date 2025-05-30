@@ -1,5 +1,6 @@
 package ru.yandex.praktikum.scooter_test.courier_test.negative.login;
 
+import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
@@ -10,6 +11,7 @@ import org.junit.runners.Parameterized;
 import ru.yandex.praktikum.scooter.courier.dto.CourierEntity;
 import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 
+import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static ru.yandex.praktikum.scooter_test.courier_test.CourierService.loginCourier;
 
@@ -21,7 +23,6 @@ public class LoginCourierWithNullFieldTest extends CourierBase {
 
     private CourierEntity courierWithMissingField;
 
-    private final int EXPECTED_STATUS_CODE = 400;
     private final String EXPECTED_MESSAGE = "Недостаточно данных для входа";
 
     public LoginCourierWithNullFieldTest(String login, String password) {
@@ -57,31 +58,26 @@ public class LoginCourierWithNullFieldTest extends CourierBase {
         });
     }
 
-    @DisplayName("Проверка кода ответа (`" + EXPECTED_STATUS_CODE + "`)")
+    @DisplayName("Попытка логина курьера с `null` полем и проверка ответа")
+    @Description("Проверяются следующие параметры: \n" +
+            "Код ответа - " + SC_BAD_REQUEST + "\n" +
+            "В теле содержится `message = " + EXPECTED_MESSAGE + "`")
     @Test
     public void shouldNotLoginCourierWithNullFieldAndVerifyStatusCode() {
         methodTestWithLog(() -> {
             Response response = loginCourier(courierWithMissingField);
-            loginCourierWithNullFieldAndVerify(() -> {
-                assertStatusCode(response,
-                        EXPECTED_STATUS_CODE,
-                        getCurrentTestMethod());
-            });
-        });
-    }
 
-    @DisplayName("Проверка параметра `message` в ответе")
-    @Test
-    public void shouldNotCreateCourierWithNullFieldAndVerifyMessage(){
-        methodTestWithLog(() -> {
-            Response response = loginCourier(courierWithMissingField);
-            loginCourierWithNullFieldAndVerify(() -> {
-                assertBody(response,
-                        "message",
-                        equalTo(EXPECTED_MESSAGE),
-                        "Ожидалось сообщение `\"message\": \""+ EXPECTED_MESSAGE + "\"`",
-                        getCurrentTestMethod());
-            });
+            logger.debug("Отправлен запрос на логин курьера {}", courier.getLogin());
+
+            assertStatusCode(response,
+                    SC_BAD_REQUEST,
+                    getCurrentTestMethod());
+
+            assertBody(response,
+                    "message",
+                    equalTo(EXPECTED_MESSAGE),
+                    "Ожидалось сообщение `\"message\": \""+ EXPECTED_MESSAGE + "\"`",
+                    getCurrentTestMethod());
         });
     }
 
@@ -89,13 +85,5 @@ public class LoginCourierWithNullFieldTest extends CourierBase {
     public void cleanUP(){
         safeCleanUp(
                 this::loginValidCourierAndVerify);
-    }
-
-    private void loginCourierWithNullFieldAndVerify(Runnable verify){
-        methodTestWithLog(() -> {
-            logger.debug("Отправлен запрос на логин курьера {}", courier.getLogin());
-
-            verify.run();
-        });
     }
 }
