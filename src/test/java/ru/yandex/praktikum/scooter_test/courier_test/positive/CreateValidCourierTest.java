@@ -1,5 +1,6 @@
 package ru.yandex.praktikum.scooter_test.courier_test.positive;
 
+import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
@@ -7,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 
+import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static ru.yandex.praktikum.scooter_test.courier_test.CourierService.addNewCourier;
 
@@ -21,18 +23,18 @@ public class CreateValidCourierTest extends CourierBase {
     }
 
     @Test
-    @DisplayName("Проверка кода ответа (`201`)")
-    public void createValidCourierAndVerifyStatusCode() {
-        methodTestWithLog(
-                this::createValidCourierAndVerify);
-    }
-
-    @Test
-    @DisplayName("Проверка параметра `ok` (`true`) в ответе")
-    public void createValidCourierAndVerifyBodyParameterOk() {
+    @DisplayName("Создание курьера с валидными данными и проверка ответа")
+    @Description("Проверяются следующие параметры: \n" +
+            "Код ответа - " + SC_CREATED + "\n" +
+            "В теле содержится `ok = true`\n")
+    public void shouldCreateValidCourierAndVerifyResponse() {
         methodTestWithLog(() -> {
             Response response = addNewCourier(courier);
             logger.debug("Отправлен запрос на создание курьера {}", courier.getLogin());
+
+            assertStatusCode(response,
+                    SC_CREATED,
+                    "addNewValidCourierAndCheck");
 
             assertBody(response,
                     "ok",
@@ -47,7 +49,8 @@ public class CreateValidCourierTest extends CourierBase {
 
     @Test
     @DisplayName("Проверка создания курьера через логин")
-    public void createValidCourierAndLogin(){
+    @Description("При создании курьера он должен быть добавлен в базу (проверяется через логин)")
+    public void shouldCreateValidCourierAndLogin(){
         methodTestWithLog(() -> {
             createValidCourierAndVerify();
             loginValidCourierAndVerify();
