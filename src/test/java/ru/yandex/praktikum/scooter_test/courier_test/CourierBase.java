@@ -54,11 +54,6 @@ public class CourierBase extends ScooterBase {
         loginCourierAndVerify(courier, "loginValidCourierAndVerify");
     }
 
-    @Step("Проверка логина курьера (кода статуса `200` и значения `id` (не null))")
-    public void loginAnyCourierAndVerify(CourierEntity anyCourier){
-        loginCourierAndVerify(anyCourier, "loginAnyCourierAndVerify");
-    }
-
     private void loginCourierAndVerify(CourierEntity loginCourier, String methodName){
         // Проверка, чтобы не отправлять заведомо невалидный запрос
         MatcherAssert.assertThat(
