@@ -8,6 +8,7 @@ import ru.yandex.praktikum.scooter.orders.dto.OrderEntity;
 import ru.yandex.praktikum.scooter.orders.dto.get.OrderGetByTrackResponseDto;
 import ru.yandex.praktikum.scooter_test.ScooterBase;
 
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static ru.yandex.praktikum.infrastructure.DateStringGenerator.getTomorrowDateString;
@@ -36,7 +37,7 @@ public class OrdersBase extends ScooterBase {
 
         Response response = getOrderByTrack(order);
         assertStatusCode(response,
-                200,
+                SC_OK,
                 methodName);
 
         OrderGetByTrackResponseDto responseDto = response.as(OrderGetByTrackResponseDto.class);
@@ -54,7 +55,7 @@ public class OrdersBase extends ScooterBase {
 
         Response response = cancelOrder(order);
         assertStatusCode(response,
-                200,
+                SC_OK,
                 methodName);
 
         logger.debug("Успешная отмена заказа {}", order.getTrack());
