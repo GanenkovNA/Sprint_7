@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.scooter_test.orders_test.positive;
+package ru.yandex.praktikum.scooter_test.orders_test.positive.get;
 
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
