@@ -78,6 +78,8 @@ public class LoginCourierWithNullFieldTest extends CourierBase {
                     equalTo(EXPECTED_MESSAGE),
                     "Ожидалось сообщение `\"message\": \""+ EXPECTED_MESSAGE + "\"`",
                     getCurrentTestMethod());
+
+            logger.debug("Логин курьера с null полем успешно не был совершён");
         });
     }
 
