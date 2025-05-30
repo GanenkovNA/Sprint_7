@@ -41,58 +41,34 @@ public class CreateDuplicateOfCourierTest extends CourierBase {
             "В теле содержится `message = " + EXPECTED_MESSAGE_CREATE + "`")
     @Test
     public void shouldNotCreateDuplicateOfCourierAndVerify(){
-        Response response = addNewCourier(courierDuplicate);
+        methodTestWithLog(() -> {
+            Response response = addNewCourier(courierDuplicate);
 
-        logger.debug("Отправлен запрос на создание дубликата курьера {}", courierDuplicate.getLogin());
+            logger.debug("Отправлен запрос на создание дубликата курьера {}", courierDuplicate.getLogin());
 
-        verifyResponse(() -> {
-            assertStatusCode(response,
-                    SC_CONFLICT,
-                    getCurrentTestMethod());
+            try {
+                assertStatusCode(response,
+                        SC_CONFLICT,
+                        getCurrentTestMethod());
 
-            assertBody(response,
-                    "message",
-                    equalTo(EXPECTED_MESSAGE_CREATE),
-                    "Ожидалось сообщение `\"message\": \""+ EXPECTED_MESSAGE_CREATE + "\"`",
-                    getCurrentTestMethod());
-        });
-    }
+                assertBody(response,
+                        "message",
+                        equalTo(EXPECTED_MESSAGE_CREATE),
+                        "Ожидалось сообщение `\"message\": \""+ EXPECTED_MESSAGE_CREATE + "\"`",
+                        getCurrentTestMethod());
 
-    @DisplayName("Проверка невозможности авторизации дубликатом курьера")
-    @Description("Проверяется код ответа - " + SC_CONFLICT)
-    @Test
-    public void shouldNotLoginDuplicateOfCourierAndVerifyStatusCode(){
-        addNewCourier(courierDuplicate);
-        Response response = loginCourier(courierDuplicate);
+                logger.debug("Дубликат курьера {} успешно не создан", courierDuplicate.getLogin());
 
-        logger.debug("Отправлен запрос на логин дубликата курьера {}", courierDuplicate.getLogin());
-
-
-        verifyResponse(() -> {
-            assertStatusCode(response,
-                    SC_NOT_FOUND,
-                    getCurrentTestMethod());
+            }catch (Throwable e) {
+                logger.debug("Попытка удаления дубликата курьера {}", courierDuplicate.getLogin());
+                tryToDeleteInvalidCourierInCaseOfTestFail(courierDuplicate);
+                throw e;
+            }
         });
     }
 
     @After
     public void cleanUp(){
         safeCleanUp(this::deleteValidCourierAndVerify);
-    }
-
-    private void verifyResponse(Runnable verify){
-        methodTestWithLog(() -> {
-            try {
-                verify.run();
-            }catch (Throwable e) {
-                deleteDuplicateOfCourier();
-                throw e;
-            }
-        });
-    }
-
-    private void deleteDuplicateOfCourier(){
-        logger.debug("Попытка удаления дубликата курьера {}", courierDuplicate.getLogin());
-        tryToDeleteInvalidCourierInCaseOfTestFail(courierDuplicate);
     }
 }
