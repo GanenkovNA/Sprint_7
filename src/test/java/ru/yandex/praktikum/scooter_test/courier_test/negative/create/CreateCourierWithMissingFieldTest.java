@@ -3,6 +3,7 @@ package ru.yandex.praktikum.scooter_test.courier_test.negative.create;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -15,6 +16,7 @@ import ru.yandex.praktikum.infrastructure.rest_assured.ExchangeCaptureFilter;
 import ru.yandex.praktikum.scooter.courier.dto.CourierEntity;
 import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 
+import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static ru.yandex.praktikum.infrastructure.RandomStringGenerator.generateRandomString;
 
@@ -25,7 +27,6 @@ public class CreateCourierWithMissingFieldTest extends CourierBase {
     private final String password;
     private final String firstName;
 
-    private final int EXPECTED_STATUS_CODE = 400;
     private final String EXPECTED_MESSAGE = "Недостаточно данных для создания учетной записи";
 
     private String courierWithMissingField;
@@ -69,40 +70,34 @@ public class CreateCourierWithMissingFieldTest extends CourierBase {
         });
     }
 
-    @DisplayName("Проверка кода ответа (`" + EXPECTED_STATUS_CODE + "`)")
-    @Test
-    public void shouldNotCreateCourierWithMissingFieldAndVerifyStatusCode() {
-        Response response = addNewCourierWithMissingFields(courierWithMissingField);
-        createCourierWithMissingFieldAndVerify(() -> {
-            assertStatusCode(response,
-                    EXPECTED_STATUS_CODE,
-                    getCurrentTestMethod());
-        });
-    }
-
-    @DisplayName("Проверка параметра `message` в ответе")
+    @DisplayName("Попытка создания курьера с отсутствующим полем и проверка ответа")
+    @Description("Проверяются следующие параметры: \n" +
+            "Код ответа - " + SC_BAD_REQUEST + "\n" +
+            "В теле содержится `message = " + EXPECTED_MESSAGE + "`")
     @Test
     public void shouldNotCreateCourierWithMissingFieldAndVerifyMessage(){
-        Response response = addNewCourierWithMissingFields(courierWithMissingField);
-        createCourierWithMissingFieldAndVerify(() -> {
-            assertBody(response,
-                    "message",
-                    equalTo(EXPECTED_MESSAGE),
-                    "Ожидалось сообщение `\"message\": \""+ EXPECTED_MESSAGE + "\"`",
-                    getCurrentTestMethod());
-        });
-    }
-
-    private void createCourierWithMissingFieldAndVerify(Runnable verify){
         methodTestWithLog(() -> {
+            Response response = addNewCourierWithMissingFields(courierWithMissingField);
+
             logger.debug("Отправлен запрос на создание курьера {}", courier.getLogin());
 
             try{
-                verify.run();
+                assertStatusCode(response,
+                        SC_BAD_REQUEST,
+                        getCurrentTestMethod());
+
+                assertBody(response,
+                        "message",
+                        equalTo(EXPECTED_MESSAGE),
+                        "Ожидалось сообщение `\"message\": \""+ EXPECTED_MESSAGE + "\"`",
+                        getCurrentTestMethod());
             } catch (Throwable e) {
                 tryToDeleteInvalidCourierInCaseOfTestFail(courier);
                 throw e;
             }
+
+            logger.debug("Курьер {} успешно не был создан", courier.getLogin());
+
         });
     }
 
