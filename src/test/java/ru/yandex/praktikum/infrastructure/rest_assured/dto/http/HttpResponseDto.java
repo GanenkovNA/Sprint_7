@@ -55,4 +55,3 @@ public class HttpResponseDto {
                 .collect(Collectors.joining("\n")) + "\n";
     }
 }
-
