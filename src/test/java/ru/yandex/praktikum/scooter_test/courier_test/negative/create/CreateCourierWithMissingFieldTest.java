@@ -97,7 +97,6 @@ public class CreateCourierWithMissingFieldTest extends CourierBase {
             }
 
             logger.debug("Курьер {} успешно не был создан", courier.getLogin());
-
         });
     }
 

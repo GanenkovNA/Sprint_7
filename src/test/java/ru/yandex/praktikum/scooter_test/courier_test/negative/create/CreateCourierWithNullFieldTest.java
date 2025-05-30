@@ -1,5 +1,6 @@
 package ru.yandex.praktikum.scooter_test.courier_test.negative.create;
 
+import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.Before;
@@ -9,6 +10,7 @@ import org.junit.runners.Parameterized;
 import ru.yandex.praktikum.scooter.courier.dto.CourierEntity;
 import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 
+import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static ru.yandex.praktikum.infrastructure.RandomStringGenerator.generateRandomString;
 import static ru.yandex.praktikum.scooter_test.courier_test.CourierService.addNewCourier;
@@ -20,7 +22,6 @@ public class CreateCourierWithNullFieldTest extends CourierBase {
     private final String password;
     private final String firstName;
 
-    private final int EXPECTED_STATUS_CODE = 400;
     private final String EXPECTED_MESSAGE = "Недостаточно данных для создания учетной записи";
 
     public CreateCourierWithNullFieldTest(String login, String password, String firstName) {
@@ -53,40 +54,34 @@ public class CreateCourierWithNullFieldTest extends CourierBase {
         });
     }
 
-    @DisplayName("Проверка кода ответа (`" + EXPECTED_STATUS_CODE + "`)")
-    @Test
-    public void shouldNotCreateCourierWithMissingFieldAndVerifyStatusCode() {
-        Response response = addNewCourier(courier);
-        createCourierWithNullFieldAndVerify(() -> {
-            assertStatusCode(response,
-                    EXPECTED_STATUS_CODE,
-                    getCurrentTestMethod());
-        });
-    }
-
-    @DisplayName("Проверка параметра `message` в ответе")
+    @DisplayName("Попытка создания курьера с `null` полем и проверка ответа")
+    @Description("Проверяются следующие параметры: \n" +
+            "Код ответа - " + SC_BAD_REQUEST + "\n" +
+            "В теле содержится `message = " + EXPECTED_MESSAGE + "`")
     @Test
     public void shouldNotCreateCourierWithMissingFieldAndVerifyMessage(){
-        Response response = addNewCourier(courier);
-        createCourierWithNullFieldAndVerify(() -> {
-            assertBody(response,
-                    "message",
-                    equalTo(EXPECTED_MESSAGE),
-                    "Ожидалось сообщение `\"message\": \""+ EXPECTED_MESSAGE + "\"`",
-                    getCurrentTestMethod());
-        });
-    }
-
-    private void createCourierWithNullFieldAndVerify(Runnable verify){
         methodTestWithLog(() -> {
+            Response response = addNewCourier(courier);
+
             logger.debug("Отправлен запрос на создание курьера {}", courier.getLogin());
 
             try{
-                verify.run();
+                assertStatusCode(response,
+                        SC_BAD_REQUEST,
+                        getCurrentTestMethod());
+
+                assertBody(response,
+                        "message",
+                        equalTo(EXPECTED_MESSAGE),
+                        "Ожидалось сообщение `\"message\": \""+ EXPECTED_MESSAGE + "\"`",
+                        getCurrentTestMethod());
+
             } catch (Throwable e) {
                 tryToDeleteInvalidCourierInCaseOfTestFail(courier);
                 throw e;
             }
+
+            logger.debug("Курьер {} успешно не был создан", courier.getLogin());
         });
     }
 }
