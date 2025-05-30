@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import ru.yandex.praktikum.scooter_test.ScooterBase;
 
 
+import static org.apache.http.HttpStatus.SC_CREATED;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.CoreMatchers.*;
 import static ru.yandex.praktikum.infrastructure.RandomStringGenerator.generateRandomString;
 import static ru.yandex.praktikum.scooter_test.courier_test.CourierService.*;
@@ -40,7 +42,7 @@ public class CourierBase extends ScooterBase {
         logger.debug("Отправлен запрос на создание курьера {}", courier.getLogin());
 
         assertStatusCode(response,
-                201,
+                SC_CREATED,
                 "addNewValidCourierAndCheck");
 
         courier.setCreated(true);
@@ -68,7 +70,7 @@ public class CourierBase extends ScooterBase {
         logger.debug("Отправлен запрос на логин курьера {}", loginCourier.getLogin());
 
         assertStatusCode(response,
-                200,
+                SC_OK,
                 methodName);
         assertBody(response,
                 "id",
@@ -104,7 +106,7 @@ public class CourierBase extends ScooterBase {
         logger.debug("Отправлен запрос на удаление курьера {}", dropCourier.getLogin());
 
         assertStatusCode(response,
-                200,
+                SC_OK,
                 methodName);
         assertBody(response,
                 "ok",
