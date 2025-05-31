@@ -41,20 +41,20 @@ public class ApiClient {
                 String message = "⏱ Превышен таймаут ответа от сервера: " + actionName;
                 logger.error(message, cause);
                 AllureLogger.attachStep(message + "\n" + cause.getMessage());
-                throw new RuntimeException(message, cause);
+                throw new AssertionError(message, cause);
             }
 
             if (cause instanceof IOException && cause.getMessage().contains("connect timed out")) {
                 String message = "⏱ Превышен таймаут подключения к серверу: " + actionName;
                 logger.error(message, cause);
                 AllureLogger.attachStep(message + "\n" + cause.getMessage());
-                throw new RuntimeException(message, cause);
+                throw new AssertionError(message, cause);
             }
 
             String errorMessage = String.format("❌ Ошибка при выполнении запроса [%s]: %s", actionName, e);
             logger.warn(errorMessage, e);
             AllureLogger.attachStep(errorMessage);
-            throw e;
+            throw new AssertionError(errorMessage, cause);
         }
     }
 

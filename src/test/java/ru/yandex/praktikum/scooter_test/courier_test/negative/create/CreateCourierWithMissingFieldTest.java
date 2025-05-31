@@ -5,14 +5,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import ru.yandex.praktikum.infrastructure.rest_assured.ExchangeCaptureFilter;
 import ru.yandex.praktikum.scooter.courier.dto.CourierEntity;
 import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 
