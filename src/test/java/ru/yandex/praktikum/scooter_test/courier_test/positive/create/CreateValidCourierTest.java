@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.scooter_test.courier_test.positive;
+package ru.yandex.praktikum.scooter_test.courier_test.positive.create;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
@@ -34,13 +34,14 @@ public class CreateValidCourierTest extends CourierBase {
 
             assertStatusCode(response,
                     SC_CREATED,
-                    "addNewValidCourierAndCheck");
+                    getCurrentTestMethod());
 
             assertBody(response,
                     "ok",
                     equalTo(true),
                     "Ожидался `ok = true`",
                     getCurrentTestMethod());
+
             logger.debug("Успешное создание курьера {}", courier.getLogin());
 
             courier.setCreated(true);

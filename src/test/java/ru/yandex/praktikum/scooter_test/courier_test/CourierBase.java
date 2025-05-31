@@ -1,7 +1,10 @@
 package ru.yandex.praktikum.scooter_test.courier_test;
 
 import io.qameta.allure.Allure;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.hamcrest.MatcherAssert;
+import ru.yandex.praktikum.infrastructure.rest_assured.ExchangeCaptureFilter;
 import ru.yandex.praktikum.scooter.courier.dto.CourierEntity;
 import ru.yandex.praktikum.scooter.courier.dto.login.CourierLoginResponseDto;
 
@@ -47,6 +50,14 @@ public class CourierBase extends ScooterBase {
 
         courier.setCreated(true);
         logger.debug("Успешное создание курьера {}", courier.getLogin());
+    }
+
+    public Response addNewCourierWithMissingFields(String jsonBody){
+        return RestAssured.given()
+                .filter(new ExchangeCaptureFilter())
+                .contentType(ContentType.JSON)
+                .body(jsonBody)
+                .post("/api/v1/courier");
     }
 
     @Step("Проверка логина валидного курьера (кода статуса `200` и значения `id` (не null))")

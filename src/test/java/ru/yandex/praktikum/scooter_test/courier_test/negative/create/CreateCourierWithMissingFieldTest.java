@@ -57,7 +57,7 @@ public class CreateCourierWithMissingFieldTest extends CourierBase {
                     .created(null)
                     .build();
 
-            logger.debug("Создана сущность курьера: {}", courier);
+            logger.debug("Создана сущность курьера c без поля: {}", courier);
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -98,13 +98,5 @@ public class CreateCourierWithMissingFieldTest extends CourierBase {
 
             logger.debug("Курьер {} успешно не был создан", courier.getLogin());
         });
-    }
-
-    private Response addNewCourierWithMissingFields(String jsonBody){
-        return RestAssured.given()
-                .filter(new ExchangeCaptureFilter())
-                .contentType(ContentType.JSON)
-                .body(jsonBody)
-                .post("/api/v1/courier");
     }
 }
