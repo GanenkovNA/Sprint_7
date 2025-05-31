@@ -1,0 +1,27 @@
+=== ОШИБКА ПРИ HTTP ОБМЕНЕ ===
+▶ ЗАПРОС: POST https://qa-scooter.praktikum-services.ru/api/v1/courier
+├─ Заголовки запроса:
+│   Accept: */*
+│   Content-Type: application/json
+└─ Тело запроса:
+    {
+      "login" : "kuA2X4uyK6",
+      "password" : "t5ZeXGpfeg",
+      "firstName" : null
+    }
+
+▶ Ответ: HTTP/1.1 201 Created (123 мс)
+├─ Заголовки ответа:
+│   ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+│   Content-Type: application/json; charset=utf-8
+│   Content-Length: 11
+│   X-Powered-By: Express
+│   X-Request-Id: 1748720100282692-3542945093567178698
+│   Access-Control-Allow-Origin: *
+│   Set-Cookie: _yasc=wwXBLMeNanDjqK/618BEOJC9wQYgxksAU9ZqFkgAAmvXc3f9iBmW+2SEJBPxIvP0; domain=.praktikum-services.ru; path=/; expires=Tue, 29 May 2035 19:35:00 GMT; secure
+│   Date: Sat, 31 May 2025 19:35:00 GMT
+└─ Тело ответа:
+    {
+      "ok" : true
+    }
+=== КОНЕЦ HTTP ОБМЕНА ===
