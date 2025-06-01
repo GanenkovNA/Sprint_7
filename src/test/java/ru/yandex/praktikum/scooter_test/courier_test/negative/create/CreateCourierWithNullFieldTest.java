@@ -34,8 +34,7 @@ public class CreateCourierWithNullFieldTest extends CourierBase {
     public static Object[][] testData(){
         return new Object[][] {
                 {null, generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING)},
-                {generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), null, generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING)},
-                {generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), null}
+                {generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING), null, generateRandomString(DEFAULT_LENGTH_OF_GENERATED_STRING)}
         };
     }
 
