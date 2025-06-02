@@ -56,6 +56,7 @@ public class LoginCourierWithMissingFieldTest extends CourierBase{
                     .password(password != null ? courier.getPassword() : null)
                     .firstName(null)
                     .created(null)
+                    .id(null)
                     .build();
 
             ObjectMapper mapper = new ObjectMapper();
