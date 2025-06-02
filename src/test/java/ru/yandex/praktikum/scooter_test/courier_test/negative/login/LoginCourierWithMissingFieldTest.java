@@ -11,12 +11,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import ru.yandex.praktikum.infrastructure.rest_assured.ApiClient;
 import ru.yandex.praktikum.scooter.courier.dto.CourierEntity;
 import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static ru.yandex.praktikum.scooter_test.courier_test.CourierService.loginCourierWithMissingFields;
 
 @DisplayName("Проверка невозможности логина курьера с отсутствующим полем")
 @RunWith(Parameterized.class)
@@ -76,7 +76,7 @@ public class LoginCourierWithMissingFieldTest extends CourierBase{
     @Test
     public void shouldNotLoginCourierWithMissingFieldAndVerifyResponse() {
         methodTestWithLog(() -> {
-            Response response = loginCourierWithMissingFields();
+            Response response = loginCourierWithMissingFields(courierWithMissingFieldAsString);
 
             logger.debug("Отправлен запрос на логин курьера {}", courier.getLogin());
 
@@ -98,12 +98,5 @@ public class LoginCourierWithMissingFieldTest extends CourierBase{
     public void cleanUP(){
         safeCleanUp(
                 this::loginValidCourierAndVerify);
-    }
-
-    private Response loginCourierWithMissingFields(){
-        return ApiClient.post(
-                "/api/v1/courier/login",
-                courierWithMissingFieldAsString,
-                "Логин курьера без поля");
     }
 }

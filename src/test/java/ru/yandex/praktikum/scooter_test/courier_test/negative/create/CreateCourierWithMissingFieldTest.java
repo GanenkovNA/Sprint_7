@@ -16,6 +16,7 @@ import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static ru.yandex.praktikum.infrastructure.RandomStringGenerator.generateRandomString;
+import static ru.yandex.praktikum.scooter_test.courier_test.CourierService.addNewCourierWithMissingFields;
 
 @DisplayName("Проверка невозможности создания курьера с отсутствующим полем")
 @RunWith(Parameterized.class)
