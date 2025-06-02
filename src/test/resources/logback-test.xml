@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+    <!-- Логирование в файл -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>target/test-logs/main-log.log</file>
+        <append>true</append>
+
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ru.yandex.praktikum.infrastructure.logback.PrettyMultilineLayout">
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </layout>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- Логирование в консоль (опционально) -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Настройка уровня логирования для RestAssured -->
+    <logger name="io.restassured" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE"/>
+<!--        <appender-ref ref="STDOUT"/> &lt;!&ndash; Опционально &ndash;&gt;-->
+    </logger>
+
+    <logger name="ru.yandex.praktikum" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+<!--        <appender-ref ref="STDOUT"/> &lt;!&ndash; Опционально &ndash;&gt;-->
+    </root>
+</configuration>
