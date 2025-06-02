@@ -15,6 +15,7 @@ import ru.yandex.praktikum.scooter_test.courier_test.CourierBase;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static ru.yandex.praktikum.infrastructure.RandomStringGenerator.generateRandomString;
+import static ru.yandex.praktikum.scooter_test.courier_test.CourierService.addNewCourierWithMissingFields;
 
 public class CreateValidCourierWithMissingFirstNameFieldTest extends CourierBase {
 
